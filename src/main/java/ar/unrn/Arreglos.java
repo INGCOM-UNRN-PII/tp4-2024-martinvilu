@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Arreglos {
     public static final int MAXIMUS_BLOQUIUS = 50;
+
     public static int[] generadorLineal(int cantidad, int inicio) {
         int[] generado = new int[cantidad];
         for (int i = 0; i < cantidad; i++) {
@@ -15,7 +16,7 @@ public class Arreglos {
         return generado;
     }
 
-    public static void ordena(int[] arreglo){
+    public static void ordena(int[] arreglo) {
         Arrays.sort(arreglo);
     }
 
@@ -59,7 +60,7 @@ public class Arreglos {
         while (scan.hasNextInt()) {
             obtenidos[cantidadLeida] = scan.nextInt();
             cantidadLeida++;
-            if(cantidadLeida >= MAXIMUS_BLOQUIUS){
+            if (cantidadLeida >= MAXIMUS_BLOQUIUS) {
                 bloques++;
                 obtenidos = Arrays.copyOf(obtenidos, MAXIMUS_BLOQUIUS * bloques);
             }
