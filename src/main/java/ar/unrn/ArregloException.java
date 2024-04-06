@@ -3,6 +3,10 @@ package ar.unrn;
 /**
  * Tipo de Excepción para indicar problemas con arreglos.
  * De momento, será uno solo para todos los problemas juntos.
+ * <p>
+ * Los problemas con arreglos, son casi siempre errores en los
+ * algoritmos, por lo que no tiene sentido tener que atajarlos
+ * siempre. Mejor que avisen si fallan.
  */
 public class ArregloException extends RuntimeException {
     /**
