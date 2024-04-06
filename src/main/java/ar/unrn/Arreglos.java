@@ -465,7 +465,7 @@ public class Arreglos {
      * Devuelve un nuevo arreglo sin el elemento removido.
      *
      * @param arreglo  El arreglo del cual se desea remover un elemento.
-     * @param posicion La posición del elemento a remover (0-indexed).
+     * @param posicion La posición del elemento a remover (de índice 0).
      * @return Un nuevo arreglo sin el elemento removido.
      * @throws IllegalArgumentException si el arreglo es nulo o la posición está fuera de los límites.
      */
@@ -490,7 +490,7 @@ public class Arreglos {
      *
      * @param arreglo El arreglo en el que se busca el elemento.
      * @param buscado El valor que se desea encontrar en el arreglo.
-     * @return La posición del primer elemento encontrado igual a 'buscado', o -1 si no se encuentra.
+     * @return La posición del primer elemento igual a 'buscado', o NO_ENCONTRADO.
      * @throws IllegalArgumentException si el arreglo es nulo.
      */
     public static int encontrar(int[] arreglo, int buscado) {
