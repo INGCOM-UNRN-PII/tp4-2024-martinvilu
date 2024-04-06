@@ -1,5 +1,6 @@
 package ar.unrn;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -280,7 +281,7 @@ class ArreglosTest {
     @Test
     public void testMedioArregloConRepetidos() {
         int[] arreglo = {100, 200, 300, 150, 250};
-        assertEquals(150, Arreglos.medio(arreglo));
+        assertEquals(200, Arreglos.medio(arreglo));
     }
 
     @Test
@@ -290,22 +291,202 @@ class ArreglosTest {
     }
 
     @Test
-    void estaOrdenado() {
+    public void testEstaOrdenadoArregloOrdenadoAscendente() {
+        int[] arreglo = {1, 2, 3, 4, 5};
+        assertTrue(Arreglos.estaOrdenado(arreglo));
     }
 
     @Test
-    void lineasEnCadena() {
+    public void testEstaOrdenadoArregloNoOrdenado() {
+        int[] arreglo = {5, 3, 8, 1, 4};
+        assertFalse(Arreglos.estaOrdenado(arreglo));
     }
 
     @Test
-    void arregloACadena() {
+    public void testEstaOrdenadoArregloUnElemento() {
+        int[] arreglo = {7};
+        assertTrue(Arreglos.estaOrdenado(arreglo));
     }
 
     @Test
-    void cadenaAArreglo() {
+    public void testDireccionOrdenArregloOrdenadoAscendente() {
+        int[] arreglo = {1, 2, 3, 4, 5};
+        assertEquals(1, Arreglos.direccionOrden(arreglo));
     }
 
     @Test
-    void comparar() {
+    public void testDireccionOrdenArregloOrdenadoDescendente() {
+        int[] arreglo = {5, 4, 3, 2, 1};
+        assertEquals(-1, Arreglos.direccionOrden(arreglo));
+    }
+
+    @Test
+    public void testDireccionOrdenArregloNoOrdenado() {
+        int[] arreglo = {5, 3, 8, 1, 4};
+        assertEquals(0, Arreglos.direccionOrden(arreglo));
+    }
+
+    @Test
+    public void testDireccionOrdenArregloUnElemento() {
+        int[] arreglo = {7};
+        assertEquals(1, Arreglos.direccionOrden(arreglo));
+    }
+
+    @Test
+    public void testLineasEnCadenaVacia() {
+        String cadena = "";
+        assertEquals(0, Arreglos.lineasEnCadena(cadena));
+    }
+
+    @Test
+    public void testLineasEnCadenaUnaLinea() {
+        String cadena = "Esta es una línea.";
+        assertEquals(0, Arreglos.lineasEnCadena(cadena));
+    }
+
+    @Test
+    public void testLineasEnCadenaVariasLineas() {
+        String cadena = "Primera línea\nSegunda línea\nTercera línea";
+        assertEquals(2, Arreglos.lineasEnCadena(cadena));
+    }
+
+    @Test
+    public void testLineasEnCadenaSoloSaltosLinea() {
+        String cadena = "\n\n\n";
+        assertEquals(3, Arreglos.lineasEnCadena(cadena));
+    }
+
+    @Test
+    public void testLineasEnCadenaConSaltosLineaAlFinal() {
+        String cadena = "Una línea\nOtra línea\n";
+        assertEquals(2, Arreglos.lineasEnCadena(cadena));
+    }
+
+    @Test
+    public void testACadenaArregloVacio() {
+        int[] arreglo = {};
+        String resultadoEsperado = "";
+        try {
+            Arreglos.aCadena(arreglo);
+            fail("Se esperaba que lanzara ArregloException");
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testACadenaUnElemento() {
+        int[] arreglo = {10};
+        String resultadoEsperado = "10\n";
+        assertEquals(resultadoEsperado, Arreglos.aCadena(arreglo));
+    }
+
+    @Test
+    public void testACadenaMultiplesElementos() {
+        int[] arreglo = {5, 10, 15, 20};
+        String resultadoEsperado = "5\n10\n15\n20\n";
+        assertEquals(resultadoEsperado, Arreglos.aCadena(arreglo));
+    }
+
+    @Test
+    public void testACadenaElementosNegativos() {
+        int[] arreglo = {-1, -5, -10};
+        String resultadoEsperado = "-1\n-5\n-10\n";
+        assertEquals(resultadoEsperado, Arreglos.aCadena(arreglo));
+    }
+
+    @Test
+    public void testACadenaElementosGrandes() {
+        int[] arreglo = {1000, 2000, 3000};
+        String resultadoEsperado = "1000\n2000\n3000\n";
+        assertEquals(resultadoEsperado, Arreglos.aCadena(arreglo));
+    }
+
+    @Test
+    public void testACadenaNulo() {
+        int[] arreglo = null;
+
+        try {
+            Arreglos.aCadena(arreglo);
+            fail("Se esperaba que lanzara ArregloException");
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testAArregloConCadenaValida() {
+        String cadena = "10\n20\n30\n40\n";
+        int[] resultadoEsperado = {10, 20, 30, 40};
+        assertArrayEquals(resultadoEsperado, Arreglos.aArreglo(cadena));
+    }
+
+    @Test
+    public void testAArregloConCadenaVacia() {
+        String cadena = "";
+        try {
+            Arreglos.aArreglo(cadena);
+            fail("Se esperaba que lanzara ArregloException");
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testAArregloConCadenaUnNumero() {
+        String cadena = "5\n";
+        int[] resultadoEsperado = {5};
+        assertArrayEquals(resultadoEsperado, Arreglos.aArreglo(cadena));
+    }
+
+    @Test
+    public void testAArregloConCadenaMuchosNumeros() {
+        String cadena = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n";
+        int[] resultadoEsperado = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        assertArrayEquals(resultadoEsperado, Arreglos.aArreglo(cadena));
+    }
+
+    @Test
+    public void testAArregloConCadenaYRedimensionamiento() {
+        // Cadena con más números de los que caben en el arreglo inicial
+        String cadena = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n";
+        int[] resultadoEsperado = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+        assertArrayEquals(resultadoEsperado, Arreglos.aArreglo(cadena));
+    }
+
+    @Test
+    public void testAArregloConCadenaInvalida() {
+        String cadena = "10\na\n20\n"; // Cadena con un valor no numérico
+        try {
+            Arreglos.aArreglo(cadena);
+            fail("Se esperaba que lanzara ArregloException");
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testAArregloConCantidadIncorrecta() {
+        String cadena = "10\n20\n30";
+        try {
+            Arreglos.aArreglo(cadena);
+            fail("Se esperaba que lanzara ArregloException");
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testCadenaArregloIda(){
+        String cadena = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n";
+        Assertions.assertEquals(cadena, Arreglos.aCadena(Arreglos.aArreglo(cadena)));
+    }
+
+    @Test
+    public void testCadenaArregloVuelta(){
+        int[] arreglo = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+        Assertions.assertArrayEquals(arreglo, Arreglos.aArreglo(Arreglos.aCadena(arreglo)));
     }
 }
+
+
