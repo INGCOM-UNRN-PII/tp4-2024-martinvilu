@@ -13,7 +13,7 @@ public class Arreglos {
      * Esta constante es el factor de crecimiento para la
      * conversión de cadena a arreglo.
      */
-    public static final int MAXIMUS_BLOQUIUS = 50;
+    public static final int MAXIMUS_BLOQUIUS = 10;
     /**
      * Usado para indicar que un arreglo está ordenado de menor a mayor.
      */
@@ -34,7 +34,7 @@ public class Arreglos {
     /**
      * Cuando un valor se busca, pero no se encuentra.
      */
-    private static final int NO_ENCONTRADO = -1;
+    public static final int NO_ENCONTRADO = -1;
 
     /**
      * Esta función se encarga de verificar las precondiciones base
@@ -153,6 +153,8 @@ public class Arreglos {
 
     /**
      * Verifica si un arreglo de enteros está ordenado en orden ascendente.
+     * <p>
+     * Una versión más simple de "direccionOrden"
      *
      * @param arreglo El arreglo de enteros a verificar.
      * @return true si el arreglo está ordenado en orden ascendente.
@@ -360,6 +362,7 @@ public class Arreglos {
 
     /**
      * Suma los elementos del arreglo
+     *
      * @param arreglo a sumar.
      * @return la suma.
      * @throws ArregloException como esta indicado en comprobar.
