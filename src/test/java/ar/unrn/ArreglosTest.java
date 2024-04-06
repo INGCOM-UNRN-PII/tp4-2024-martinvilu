@@ -209,6 +209,87 @@ class ArreglosTest {
     }
 
     @Test
+    public void testMaximoArregloNoNulo() {
+        int[] arreglo = {5, 3, 9, 2, 8};
+        assertEquals(9, Arreglos.maximo(arreglo));
+    }
+
+    @Test
+    public void testMaximoArregloUnElemento() {
+        int[] arreglo = {4};
+        assertEquals(4, Arreglos.maximo(arreglo));
+    }
+
+    @Test
+    public void testMaximoArregloValoresNegativos() {
+        int[] arreglo = {-10, -5, -8, -3};
+        assertEquals(-3, Arreglos.maximo(arreglo));
+    }
+
+    @Test
+    public void testMinimoArregloNoNulo() {
+        int[] arreglo = {5, 3, 9, 2, 8};
+        assertEquals(2, Arreglos.minimo(arreglo));
+    }
+
+    @Test
+    public void testMinimoArregloUnElemento() {
+        int[] arreglo = {4};
+        assertEquals(4, Arreglos.minimo(arreglo));
+    }
+
+    @Test
+    public void testMinimoArregloValoresNegativos() {
+        int[] arreglo = {-10, -5, -8, -3};
+        assertEquals(-10, Arreglos.minimo(arreglo));
+    }
+
+    @Test
+    public void testEncontrarElementoExistente() {
+        int[] arreglo = {5, 10, 15, 20, 25};
+        int buscado = 15; // Buscar el elemento con valor 15
+        assertEquals(2, Arreglos.encontrar(arreglo, buscado));
+    }
+
+    @Test
+    public void testEncontrarElementoNoExistente() {
+        int[] arreglo = {2, 4, 6, 8, 10};
+        int buscado = 15; // Buscar el elemento con valor 15 (no existe en el arreglo)
+        assertEquals(-1, Arreglos.encontrar(arreglo, buscado));
+    }
+
+    @Test
+    public void testEncontrarElementoRepetido() {
+        int[] arreglo = {10, 20, 30, 20, 40};
+        int buscado = 20; // Buscar el elemento con valor 20 (repetido)
+        assertEquals(1, Arreglos.encontrar(arreglo, buscado));
+    }
+
+    @Test
+    public void testMedioArregloNoNulo() {
+        int[] arreglo = {5, 10, 15, 20, 25};
+        assertEquals(15, Arreglos.medio(arreglo));
+    }
+
+    @Test
+    public void testMedioArregloValoresNegativos() {
+        int[] arreglo = {-10, -5, 0, 5, 10};
+        assertEquals(0, Arreglos.medio(arreglo));
+    }
+
+    @Test
+    public void testMedioArregloConRepetidos() {
+        int[] arreglo = {100, 200, 300, 150, 250};
+        assertEquals(150, Arreglos.medio(arreglo));
+    }
+
+    @Test
+    public void testMedioArregloUnElemento() {
+        int[] arreglo = {8};
+        assertEquals(8, Arreglos.medio(arreglo));
+    }
+
+    @Test
     void estaOrdenado() {
     }
 

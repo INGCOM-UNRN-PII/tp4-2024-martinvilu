@@ -31,6 +31,10 @@ public class Arreglos {
      * Pero si aparece, vamos a saber inmediatamente que hay algo mal.
      */
     public static final int POTENCIAL_FALLO = 0xFFFF;
+    /**
+     * Cuando un valor se busca, pero no se encuentra.
+     */
+    private static final int NO_ENCONTRADO = -1;
 
     /**
      * Esta función se encarga de verificar las precondiciones base
@@ -40,8 +44,8 @@ public class Arreglos {
      * @param arreglo a ser verificado
      * @throws ArregloException cuando arreglo es nulo.
      * @throws ArregloException cuando arreglo tiene 0 elementos.
-     * (Este es un buen ejemplo de por qué necesitamos 'clasificar'
-     *     las excepciones)
+     *                          (Este es un buen ejemplo de por qué
+     *                          necesitamos 'clasificar' las excepciones)
      */
     public static void comprobar(int[] arreglo) {
         if (arreglo == null) {
@@ -298,6 +302,7 @@ public class Arreglos {
     /**
      * Duplica el arreglo usando redimensionar sin cambiar el tamaño y usando el
      * relleno en POTENCIAL_FALLO para indicar potenciales problemas.
+     *
      * @param arreglo a duplicar
      * @return el duplicado
      * @throws ArregloException como esta indicado en comprobar.
@@ -351,5 +356,154 @@ public class Arreglos {
             j--;
         }
         return invertido;
+    }
+
+    /**
+     * Suma los elementos del arreglo
+     * @param arreglo a sumar.
+     * @return la suma.
+     * @throws ArregloException como esta indicado en comprobar.
+     */
+    public static int suma(int[] arreglo) {
+        comprobar(arreglo);
+        int retorno = 0;
+        int i = 0;
+        while (i < arreglo.length) {
+            retorno = retorno + arreglo[i];
+            i++;
+        }
+        return retorno;
+    }
+
+    /**
+     * Da el promedio de los valores contenidos en el arreglo.
+     *
+     * @param arreglo a promediar.
+     * @return el promedio.
+     * @throws ArregloException como esta indicado en comprobar.
+     */
+    public static float promedio(int[] arreglo) {
+        comprobar(arreglo);
+        return suma(arreglo) / (float) arreglo.length;
+    }
+
+    /**
+     * Encuentra el valor máximo en un arreglo de enteros.
+     *
+     * @param arreglo El arreglo de enteros en el que se busca el máximo.
+     * @return El valor máximo en el arreglo.
+     * @throws ArregloException como esta indicado en comprobar.
+     */
+    public static int maximo(int[] arreglo) {
+        comprobar(arreglo);
+
+        int max = arreglo[0];
+        int i = 1;
+
+        while (i < arreglo.length) {
+            if (arreglo[i] > max) {
+                max = arreglo[i];
+            }
+            i++;
+        }
+
+        return max;
+    }
+
+    /**
+     * Encuentra el valor mínimo en un arreglo de enteros.
+     *
+     * @param arreglo El arreglo de enteros en el que se busca el mínimo.
+     * @return El valor mínimo en el arreglo.
+     * @throws ArregloException como esta indicado en comprobar.
+     */
+    public static int minimo(int[] arreglo) {
+        comprobar(arreglo);
+        int min = arreglo[0];
+        int i = 1;
+        while (i < arreglo.length) {
+            if (arreglo[i] < min) {
+                min = arreglo[i];
+            }
+            i++;
+        }
+        return min;
+    }
+
+    /**
+     * Encuentra el número más cercano al valor medio entre el máximo y el mínimo
+     * de un arreglo dado.
+     *
+     * @param arreglo El arreglo del cual se busca el número más cercano al valor medio.
+     * @return El número más cercano al valor medio entre el máximo y el mínimo del arreglo.
+     * @throws IllegalArgumentException si el arreglo es nulo o vacío.
+     */
+    public static int medio(int[] arreglo) {
+        comprobar(arreglo);
+        int maximo = maximo(arreglo);
+        int minimo = minimo(arreglo);
+        double valorMedio = (maximo + minimo) / 2.0;
+        int numeroMasCercano = arreglo[0];
+        double diferenciaMinima = Math.abs(arreglo[0] - valorMedio);
+        int i = 1;
+        while (i < arreglo.length) {
+            double diferenciaActual = Math.abs(arreglo[i] - valorMedio);
+            if (diferenciaActual < diferenciaMinima) {
+                numeroMasCercano = arreglo[i];
+                diferenciaMinima = diferenciaActual;
+            }
+            i++;
+        }
+        return numeroMasCercano;
+    }
+
+    /**
+     * Remueve el elemento en la posición especificada del arreglo dado.
+     * Devuelve un nuevo arreglo sin el elemento removido.
+     *
+     * @param arreglo  El arreglo del cual se desea remover un elemento.
+     * @param posicion La posición del elemento a remover (0-indexed).
+     * @return Un nuevo arreglo sin el elemento removido.
+     * @throws IllegalArgumentException si el arreglo es nulo o la posición está fuera de los límites.
+     */
+    public static int[] remover(int[] arreglo, int posicion) {
+        comprobar(arreglo);
+        if (posicion < 0 || posicion >= arreglo.length) {
+            throw new IllegalArgumentException("Posición fuera de los límites del arreglo");
+        }
+        int nuevoLargo = arreglo.length - 1;
+        int[] nuevoArreglo = new int[nuevoLargo];
+        int j = 0;
+        for (int i = 0; i < arreglo.length; i++) {
+            if (i != posicion) {
+                nuevoArreglo[j++] = arreglo[i];
+            }
+        }
+        return nuevoArreglo;
+    }
+
+    /**
+     * Encuentra la posición del primer elemento igual al valor buscado en el arreglo dado.
+     *
+     * @param arreglo El arreglo en el que se busca el elemento.
+     * @param buscado El valor que se desea encontrar en el arreglo.
+     * @return La posición del primer elemento encontrado igual a 'buscado', o -1 si no se encuentra.
+     * @throws IllegalArgumentException si el arreglo es nulo.
+     */
+    public static int encontrar(int[] arreglo, int buscado) {
+        comprobar(arreglo);
+        int i = 0;
+        boolean encontrado = false;
+        while (i < arreglo.length && !encontrado) {
+            if (arreglo[i] == buscado) {
+                encontrado = true;
+            }
+            i++;
+        }
+        i = i - 1;
+        if (!encontrado) {
+            i = NO_ENCONTRADO;
+        }
+        return i;
     }
 }
