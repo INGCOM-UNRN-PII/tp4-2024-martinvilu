@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,22 +16,69 @@ import java.nio.file.Paths;
  */
 @DisplayName("Ejercicio 1")
 class ArchivosTest {
+    @Test
+    void listadoTest() {
+        Path raiz = Paths.get(".");
+        try {
+            Path[] archivos = Archivos.listado(raiz);
+            for (Path p : archivos){
+                System.out.println(p.toString());
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Test
+    void leerInexistente() {
+        Path readme = Paths.get(".", "noexiste");
+        try {
+            Archivos.leer(readme);
+            Assertions.fail("Debió lanzar la excepcion");
+        } catch (IOException exception) {
+            ;
+        }
+    }
+
+    @Test
+    void testLeerArchivo() {
+        Path readme = Paths.get(".", "README.md");
+        try {
+            Archivos.leer(readme);
+        } catch (IOException exception) {
+            ;
+        }
+    }
 
     /**
-     * Este test es una plantilla.
+     * Con archivos, que tienen una preparación, es mucho más simple
+     * probar varias cosas juntas.
+     * <p>
+     * En especial cuando tenemos una función que es opuesta a la otra
+     * escribimos, leemos y vemos si lo que salió puede volver a entrar.
      */
     @Test
     @DisplayName("Completar que se esta probando")
     void testLectoEscritura() {
         Path temporario = Paths.get(".", "temporario");
-        int[] arreglo = {1,2,4,5,6,3,7,8,9};
-        int[] obtenido;
+        int[] arreglo = {1, 2, 4, 5, 6, 3, 7, 8, 9};
+        int[] obtenido = null;
         Files.exists(temporario); // no debiera de existir
+        try {
+            Archivos.escribir(temporario, arreglo, true);
+            Assertions.assertTrue(Archivos.esCorrecto(temporario), "Lo que acabamos de escribir, debiera de ser correcto");
+            obtenido = Archivos.cargar(temporario);
+            Files.delete(temporario);
 
-        Archivos.escribir(temporario, arreglo);
-        obtenido = Archivos.cargar(temporario);
-
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        try {
+            Archivos.esCorrecto(temporario);
+            Assertions.fail("El archivo debio ser borrado");
+        } catch (IOException exception) {
+            ;
+        }
         Assertions.assertArrayEquals(arreglo, obtenido, "Lo que leimos no es lo mismo que escribimos");
-
     }
 }
