@@ -641,7 +641,7 @@ class ArreglosTest {
         int cantidad = 20;
         int minimo = 0;
         int maximo = 100;
-        int iteraciones = 1000;
+        int iteraciones = 1000000;
         while (iteraciones > 0) {
             int[] resultado = Arreglos.generadorAleatorio(cantidad, minimo, maximo);
             assertEquals(cantidad, resultado.length);
