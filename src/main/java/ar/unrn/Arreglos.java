@@ -467,12 +467,12 @@ public class Arreglos {
      * @param arreglo  El arreglo del cual se desea remover un elemento.
      * @param posicion La posición del elemento a remover (de índice 0).
      * @return Un nuevo arreglo sin el elemento removido.
-     * @throws IllegalArgumentException si el arreglo es nulo o la posición está fuera de los límites.
+     * @throws ArregloException si el arreglo es nulo o la posición está fuera de los límites.
      */
     public static int[] remover(int[] arreglo, int posicion) {
         comprobar(arreglo);
         if (posicion < 0 || posicion >= arreglo.length) {
-            throw new IllegalArgumentException("Posición fuera de los límites del arreglo");
+            throw new ArregloException("Posición fuera de los límites del arreglo");
         }
         int nuevoLargo = arreglo.length - 1;
         int[] nuevoArreglo = new int[nuevoLargo];
@@ -491,7 +491,7 @@ public class Arreglos {
      * @param arreglo El arreglo en el que se busca el elemento.
      * @param buscado El valor que se desea encontrar en el arreglo.
      * @return La posición del primer elemento igual a 'buscado', o NO_ENCONTRADO.
-     * @throws IllegalArgumentException si el arreglo es nulo.
+     * @throws ArchivoException según comprobar
      */
     public static int encontrar(int[] arreglo, int buscado) {
         comprobar(arreglo);
