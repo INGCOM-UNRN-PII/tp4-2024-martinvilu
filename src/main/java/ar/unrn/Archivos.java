@@ -94,7 +94,7 @@ public class Archivos {
     }
 
     /**
-     * Esta funcion se encarga de guardar el arreglo en el archivo indicado.
+     * Esta función se encarga de guardar el arreglo en el archivo indicado.
      *
      * @param archivo    el destino del archivo.
      * @param arreglo    a guardar.
@@ -108,7 +108,7 @@ public class Archivos {
             if (reemplazar) {
                 Files.delete(archivo);
             } else {
-                throw new ArchivoException("El archivo existia y no se eligió reemplazarlo");
+                throw new ArchivoException("El archivo existía y no se eligió reemplazarlo");
             }
         }
         Files.createFile(archivo);
