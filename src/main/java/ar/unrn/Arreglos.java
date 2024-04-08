@@ -57,23 +57,36 @@ public class Arreglos {
     }
 
     /**
-     * Muestra el arreglo como una lista separada por comas y rodeada
-     * de corchetes.
+     * Convierte a cadena el arreglo como una lista separada por comas
+     * y rodeada de corchetes.
      *
      * @param arreglo que será mostrado
+     * @throws ArregloException como comprobar indica.
      */
-    public static void mostrar(int[] arreglo) {
+    public static String aCadenaConsola(int[] arreglo) {
         comprobar(arreglo);
-        System.out.print("arreglo: [");
+        StringBuilder generador = new StringBuilder("arreglo: [");
         int i = 0;
         while (i < arreglo.length) {
-            System.out.print(arreglo[i]);
+            generador.append(arreglo[i]);
             if (i != arreglo.length - 1) {
-                System.out.print(", ");
+                generador.append(", ");
             }
             i++;
         }
-        System.out.println("]");
+        generador.append("]");
+        return generador.toString();
+    }
+
+    /**
+     * Muestra por consola una representación de una línea del arreglo.
+     *
+     * @param arreglo a mostrar.
+     * @throws ArregloException como indica comprobar.
+     */
+    public static void mostrar(int[] arreglo) {
+        comprobar(arreglo);
+        System.out.println(aCadenaConsola(arreglo));
     }
 
     /**
