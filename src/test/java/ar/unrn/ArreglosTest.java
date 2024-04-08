@@ -47,6 +47,13 @@ class ArreglosTest {
     }
 
     @Test
+    public void testCompararArreglosDiferenteTamanio() {
+        int[] arreglo1 = {1, 2};
+        int[] arreglo2 = {3, 2, 1};
+        assertFalse(Arreglos.comparar(arreglo1, arreglo2));
+    }
+
+    @Test
     public void testCompararArreglosNulos() {
         int[] arreglo1 = null;
         int[] arreglo2 = {1, 2, 3};
@@ -477,16 +484,198 @@ class ArreglosTest {
     }
 
     @Test
-    public void testCadenaArregloIda(){
+    public void testCadenaArregloIda() {
         String cadena = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n";
         Assertions.assertEquals(cadena, Arreglos.aCadena(Arreglos.aArreglo(cadena)));
     }
 
     @Test
-    public void testCadenaArregloVuelta(){
+    public void testCadenaArregloVuelta() {
         int[] arreglo = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
         Assertions.assertArrayEquals(arreglo, Arreglos.aArreglo(Arreglos.aCadena(arreglo)));
     }
+
+    @Test
+    public void testPromedioArregloUnElemento() {
+        int[] arreglo = {10};
+        assertEquals(10.0f, Arreglos.promedio(arreglo));
+    }
+
+    @Test
+    public void testPromedioArregloMultiplesElementos() {
+        int[] arreglo = {5, 10, 15, 20};
+        assertEquals(12.5f, Arreglos.promedio(arreglo));
+    }
+
+    @Test
+    public void testPromedioArregloNegativos() {
+        int[] arreglo = {-1, -5, -10};
+        assertEquals(-5.3333335f, Arreglos.promedio(arreglo), 0.00001f);
+    }
+
+    @Test
+    public void testPromedioArregloTodosCeros() {
+        int[] arreglo = {0, 0, 0, 0, 0};
+        assertEquals(0.0f, Arreglos.promedio(arreglo));
+    }
+
+    @Test
+    public void testSumaArregloUnElemento() {
+        int[] arreglo = {10};
+        assertEquals(10, Arreglos.suma(arreglo));
+    }
+
+    @Test
+    public void testSumaArregloMultiplesElementos() {
+        int[] arreglo = {5, 10, 15, 20};
+        assertEquals(50, Arreglos.suma(arreglo));
+    }
+
+    @Test
+    public void testSumaArregloNegativos() {
+        int[] arreglo = {-1, -5, -10};
+        assertEquals(-16, Arreglos.suma(arreglo));
+    }
+
+    @Test
+    public void testRemoverElementoEnPosicion0() {
+        int[] arreglo = {10, 20, 30, 40};
+        int posicion = 0;
+        int[] resultadoEsperado = {20, 30, 40};
+        assertArrayEquals(resultadoEsperado, Arreglos.remover(arreglo, posicion));
+    }
+
+    @Test
+    public void testRemoverElementoEnPosicion1() {
+        int[] arreglo = {10, 20, 30, 40};
+        int posicion = 1;
+        int[] resultadoEsperado = {10, 30, 40};
+        assertArrayEquals(resultadoEsperado, Arreglos.remover(arreglo, posicion));
+    }
+
+    @Test
+    public void testRemoverElementoEnPosicionUltima() {
+        int[] arreglo = {10, 20, 30, 40};
+        int posicion = 3; // Última posición
+        int[] resultadoEsperado = {10, 20, 30};
+        assertArrayEquals(resultadoEsperado, Arreglos.remover(arreglo, posicion));
+    }
+
+    @Test
+    public void testRemoverElementoPosicionNegativa() {
+        int[] arreglo = {10, 20, 30, 40};
+        int posicion = -1;
+        try {
+            Arreglos.remover(arreglo, posicion);
+            fail("Esperabamos ver una excepción.");
+
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testRemoverElementoPosicionFueraDeLimites() {
+        int[] arreglo = {10, 20, 30, 40};
+        int posicion = 4;
+        try {
+            Arreglos.remover(arreglo, posicion);
+            fail("Esperabamos ver una excepción.");
+
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testGeneradorAleatorioCantidadInvalida() {
+        int cantidad = 0; // Cantidad inválida
+        int minimo = 1;
+        int maximo = 10;
+        try {
+            Arreglos.generadorAleatorio(cantidad, minimo, maximo);
+            fail("Esperabamos ver una excepción.");
+
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testGeneradorAleatorioMinimoMayorQueMaximo() {
+        int cantidad = 5;
+        int minimo = 10; // Mínimo mayor que máximo
+        int maximo = 5;
+        try {
+            Arreglos.generadorAleatorio(cantidad, minimo, maximo);
+            fail("Esperabamos ver una excepción.");
+
+        } catch (ArregloException ignorado) {
+            ;
+        }
+    }
+
+    @Test
+    public void testGeneradorAleatorioUnElemento() {
+        int cantidad = 1;
+        int minimo = 0;
+        int maximo = 100;
+        int[] resultado = Arreglos.generadorAleatorio(cantidad, minimo, maximo);
+        assertEquals(1, resultado.length);
+        assertTrue(resultado[0] >= minimo && resultado[0] <= maximo);
+    }
+
+    @Test
+    public void testGeneradorAleatorioMinimosMaximos() {
+        int cantidad = 20;
+        int minimo = 0;
+        int maximo = 100;
+        int[] resultado = Arreglos.generadorAleatorio(cantidad, minimo, maximo);
+        assertEquals(cantidad, resultado.length);
+        assertTrue(Arreglos.minimo(resultado) >= minimo);
+        assertTrue(Arreglos.minimo(resultado) < maximo);
+    }
+
+    @Test
+    public void testGeneradorAleatorioMinimosMaximosIteraciones() {
+        int cantidad = 20;
+        int minimo = 0;
+        int maximo = 100;
+        int iteraciones = 1000;
+        while (iteraciones > 0) {
+            int[] resultado = Arreglos.generadorAleatorio(cantidad, minimo, maximo);
+            assertEquals(cantidad, resultado.length);
+            assertTrue(Arreglos.minimo(resultado) >= minimo);
+            assertTrue(Arreglos.minimo(resultado) < maximo);
+            iteraciones--;
+        }
+    }
+
+    @Test
+    public void testACadenaConsolaUnElemento() {
+        int[] arreglo = {10};
+        String resultadoEsperado = "arreglo: [10]";
+        assertEquals(resultadoEsperado, Arreglos.aCadenaConsola(arreglo));
+    }
+
+    @Test
+    public void testACadenaConsolaMultiplesElementos() {
+        int[] arreglo = {5, 10, 15, 20};
+        String resultadoEsperado = "arreglo: [5, 10, 15, 20]";
+        assertEquals(resultadoEsperado, Arreglos.aCadenaConsola(arreglo));
+    }
+
+    @Test
+    public void testACadenaConsolaElementosNegativos() {
+        int[] arreglo = {-1, -5, -10};
+        String resultadoEsperado = "arreglo: [-1, -5, -10]";
+        assertEquals(resultadoEsperado, Arreglos.aCadenaConsola(arreglo));
+    }
+
+    @Test
+    public void testACadenaConsolaElementosRepetidos() {
+        int[] arreglo = {10, 10, 10, 10};
+        String resultadoEsperado = "arreglo: [10, 10, 10, 10]";
+        assertEquals(resultadoEsperado, Arreglos.aCadenaConsola(arreglo));
+    }
 }
-
-
