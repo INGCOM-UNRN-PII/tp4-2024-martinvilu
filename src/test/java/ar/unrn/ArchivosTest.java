@@ -21,7 +21,7 @@ class ArchivosTest {
         Path raiz = Paths.get(".");
         try {
             Path[] archivos = Archivos.listado(raiz);
-            for (Path p : archivos){
+            for (Path p : archivos) {
                 System.out.println(p.toString());
             }
         } catch (IOException exception) {
@@ -66,7 +66,8 @@ class ArchivosTest {
         Files.exists(temporario); // no debiera de existir
         try {
             Archivos.escribir(temporario, arreglo, true);
-            Assertions.assertTrue(Archivos.esCorrecto(temporario), "Lo que acabamos de escribir, debiera de ser correcto");
+            int lineas = Archivos.lineasArchivo(temporario);
+            Assertions.assertEquals(arreglo.length, lineas, "Lo que acabamos de escribir, debiera de ser correcto y contener la misma cantidad");
             obtenido = Archivos.cargar(temporario);
             Files.delete(temporario);
 
@@ -74,7 +75,7 @@ class ArchivosTest {
             exception.printStackTrace();
         }
         try {
-            Archivos.esCorrecto(temporario);
+            Archivos.lineasArchivo(temporario);
             Assertions.fail("El archivo debio ser borrado");
         } catch (IOException exception) {
             ;

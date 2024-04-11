@@ -40,28 +40,28 @@ public class Archivos {
         return Arrays.copyOf(retorno, i);
     }
 
-    public static String mostrar(Path archivo) throws IOException {
-        if (!Files.isRegularFile(archivo)) {
-            throw new ArchivoException("No era un archivo");
-        }
-        return leer(archivo);
-    }
-
     /**
      * Esta función lee el contenido del archivo a una cadena.
      *
      * @param archivo a leer.
      * @return el contenido del archivo
-     * @throws IOException      cuando la lectura del archivo falla
-     * @throws ArchivoException cuando el archivo no es legible
-     * @throws ArchivoException cuando el archivo no existe.
+     * @throws IOException              cuando la lectura del archivo falla
+     * @throws ArchivoException         cuando no era un archivo.
+     * @throws ArchivoNoExisteException cuando el archivo no es legible
+     * @throws ArchivoIlegibleException cuando el archivo no existe o no contiene texto.
      */
     public static String leer(Path archivo) throws IOException {
         if (Files.notExists(archivo)) {
-            throw new ArchivoException("El archivo indicado no existe");
+            throw new ArchivoNoExisteException("El archivo indicado no existe");
+        }
+        if (!Files.isRegularFile(archivo)) {
+            throw new ArchivoException("No era un archivo");
         }
         if (!Files.isReadable(archivo)) {
-            throw new ArchivoException("El archivo no es legible.");
+            throw new ArchivoIlegibleException("El archivo no es legible.");
+        }
+        if (!Files.probeContentType(archivo).startsWith("text")) {
+            throw new ArchivoIlegibleException("El archivo no contiene texto");
         }
         return Files.readString(archivo);
     }
@@ -80,17 +80,21 @@ public class Archivos {
     }
 
     /**
-     * Indica si es posible leer el archivo completo
+     * Indica cuantos números hay en un archivo o una excepcion cuando no sea posible.
      *
      * @param archivo la ruta a lo que será procesado
      * @return si es correcto o no.
-     * @throws IOException por si no fue posible acceder al archivo indicado.
+     * @throws IOException      por si no fue posible acceder al archivo indicado.
+     * @throws ArchivoException cuando el archivo no pudo ser leído correctamente
      */
-    public static boolean esCorrecto(Path archivo) throws IOException {
+    public static int lineasArchivo(Path archivo) throws IOException {
         String contenido = leer(archivo);
         int lineasEsperadas = Arreglos.lineasEnCadena(contenido);
         int[] arreglo = Arreglos.aArreglo(contenido);
-        return arreglo.length == lineasEsperadas;
+        if (arreglo.length != lineasEsperadas) {
+            throw new ArchivoException("El archivo no es correcto");
+        }
+        return arreglo.length;
     }
 
     /**
@@ -114,6 +118,4 @@ public class Archivos {
         Files.createFile(archivo);
         Files.writeString(archivo, Arreglos.aCadena(arreglo));
     }
-
-
 }
